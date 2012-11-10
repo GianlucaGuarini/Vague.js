@@ -153,10 +153,10 @@
 			} else if (svgfilters) {
 				filterValue = "url(#blur-effect-id-" + filterId + ")";
 			} else {
-				filterValue = "progid:DXImageTransform.Microsoft.Blur(MakeShadow=true, PixelRadius='" + options.intensity +"',ShadowOpacity=0.5)";
+				filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
 			}
 			cssProp[cssPrefix('Filter')] = filterValue;
-
+		
 			this.$elm.css(cssProp);
 			
 		};
