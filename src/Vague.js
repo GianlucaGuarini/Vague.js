@@ -173,7 +173,6 @@
 			}
 			this.unblur();
 		};
-
 		return this.init();
 	};
 
