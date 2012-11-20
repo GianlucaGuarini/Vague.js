@@ -138,8 +138,6 @@
 
 			this.$elm.data("vague-filter-id",cache.filterId);
 
-			this.blur();
-
 			cache.filterId ++;
 			
 		};

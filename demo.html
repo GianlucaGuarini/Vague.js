@@ -23,9 +23,9 @@
 		$("img").each(function(i){
 			var vague = $(this).Vague({intensity:i + 1 * 3});
 			$(this).toggle(function(){
-				vague.unblur()
-			},function() {
 				vague.blur()
+			},function() {
+				vague.unblur()
 			});
 			//setTimeout(function(){vague.destroy()},3000);
 		})
