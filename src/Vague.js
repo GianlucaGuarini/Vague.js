@@ -62,17 +62,6 @@
 
 		var browserPrefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
 
-		///////////////////////////////////////////////////////////////////////////
-		// A function to get browser specific CSS styles names properties...    //
-		// eg. "MozBorderRadius" or "WebkitTransform" ...                      //
-		// By molokoloco - http://www.b2bweb.fr - 2011                        //
-		///////////////////////////////////////////////////////////////////////
-		// Can find it in my repository
-		// https://github.com/molokoloco/FRAMEWORK/blob/master/jquery.plugins/
-		// [Edit] : I found a rock solid plugin who can handle that very fine
-		// https://github.com/codler/jQuery-Css3-Finalize
-		////////////////////////////////////////////////////////////////////
-
 		var cssPrefixString = {};
 		var cssPrefix = function(property) {
 			if (cssPrefixString[property] || cssPrefixString[property] === '') return cssPrefixString[property] + property;
