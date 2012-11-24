@@ -4,10 +4,16 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 - Safari 6.0 +
 - IE 7 +
 
+----------
+# DEMO
+[codepen.io] (http://codepen.io/GianlucaGuarini/pen/ynCBD)
+
+----------
 # Dependency
 
 [jQuery](http://jquery.com/)
 
+----------
 # USAGE
 
 <pre>
@@ -17,6 +23,7 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 	vague.blur();
 </pre>
 
+----------
 #API (public methods)
 
 
@@ -24,6 +31,7 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 - <code>unblur</code> : unblur the element selected.
 - <code>destroy</code> : fires the unblur event and removes the svg filter from the DOM (whether it is needed)
 
+----------
 #KNOWN ISSUES
 
 - currently the svg filters are not complitely supported by all the modern browsers http://caniuse.com/svg-html
