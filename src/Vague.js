@@ -56,6 +56,15 @@
 
 		/*
 		*
+		* PRIVATE VARS
+		*
+		*/
+
+		//start out unblurred, amiright?
+		var blurred = false;
+
+		/*
+		*
 		* features detection
 		*
 		*/
@@ -101,7 +110,7 @@
 		*/
 
 		var appendSVGFilter = function () {
-		
+
 			var filterMarkup = "<svg id='vague-svg-blur'>" +
 									"<filter id='blur-effect-id-" + cache.filterId + "'>" +
 										"<feGaussianBlur stdDeviation='" + options.intensity + "' />" +
@@ -109,7 +118,7 @@
 								"</svg>";
 
 			$("body").append(filterMarkup);
-							
+
 		};
 
 		/*
@@ -120,7 +129,7 @@
 
 		this.init = function () {
 			// checking the css filter feature
-			
+
 			if (svgfilters) {
 				appendSVGFilter();
 			}
@@ -128,7 +137,7 @@
 			this.$elm.data("vague-filter-id",cache.filterId);
 
 			cache.filterId ++;
-			
+
 		};
 
 		this.blur = function () {
@@ -143,15 +152,25 @@
 				filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
 			}
 			cssProp[cssPrefix('Filter')] = filterValue;
-		
+
 			this.$elm.css(cssProp);
-			
+
+			blurred = true;
 		};
 
 		this.unblur = function () {
 			var cssProp = {};
 			cssProp[cssPrefix('Filter')] = "none";
 			this.$elm.css(cssProp);
+			blurred = false;
+		};
+
+		this.toggleblur = function () {
+			if (blurred) {
+				this.unblur();
+			} else {
+				this.blur();
+			}
 		};
 
 		this.destroy = function () {
