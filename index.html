@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+	<title>Vague.js</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<figure class="container"></figure>
+	<article>
+		<a target="_blank" href="https://github.com/GianlucaGuarini/vague.js">Vague.js</a>
+		<span href="#" class="btn">Toggle Blur</span>
+	</article>
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="Vague.js"></script>
+	<script>
+		var vague = $(".container").Vague({intensity:30});
+		vague.blur();
+		$(".btn").on("click",$.proxy(vague.toggleblur,vague));
+	</script>
+</body>
+</html>

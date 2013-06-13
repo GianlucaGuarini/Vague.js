@@ -1,0 +1,62 @@
+@import url(http://fonts.googleapis.com/css?family=Satisfy);
+body {
+	margin:0;
+} 
+.container {
+	width:100%;
+	height:100%;
+	background:url(img.jpg) no-repeat center center;
+	background-size:cover;
+	position:absolute;
+}
+figure {
+	margin:0;
+}
+html, body {
+	height:100%;
+	margin:0;
+	font-family: 'Satisfy', cursive;
+	background:black;
+	overflow: hidden;
+}
+article {
+	position:absolute;
+	top:50%;
+	left:50%;
+	color:white;
+	z-index:1;
+	width:600px;
+	height:200px;
+	margin:-100px 0 0 -300px;
+	text-align:center;
+}
+
+a {
+	color:white;
+	text-decoration:none;
+	font-size:70px;
+	display:block;
+	margin:0 0 30px;
+	width:100%;
+}
+span.btn {
+	display:inline-block;
+	border:none;
+	border-top: 1px solid #4f4f4f;
+	background: #006996;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00c1fc), to(#006996));
+	background: -webkit-linear-gradient(top, #00c1fc, #006996);
+	background: -moz-linear-gradient(top, #00c1fc, #006996);
+	background: -ms-linear-gradient(top, #00c1fc, #006996);
+	background: -o-linear-gradient(top, #00c1fc, #006996);
+	padding: 5px 10px;
+	-webkit-border-radius: 14px;
+	-moz-border-radius: 14px;
+	border-radius: 14px;
+	box-shadow: rgba(0,0,0,1) 0 1px 0;
+	-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+	box-shadow: rgba(0,0,0,1) 0 1px 0;
+	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	color: white;
+	font-size: 17px;
+}
