@@ -41,22 +41,9 @@ a {
 }
 span.btn {
 	display:inline-block;
-	border:none;
-	border-top: 1px solid #4f4f4f;
-	background: #006996;
-	background: -webkit-gradient(linear, left top, left bottom, from(#00c1fc), to(#006996));
-	background: -webkit-linear-gradient(top, #00c1fc, #006996);
-	background: -moz-linear-gradient(top, #00c1fc, #006996);
-	background: -ms-linear-gradient(top, #00c1fc, #006996);
-	background: -o-linear-gradient(top, #00c1fc, #006996);
-	padding: 5px 10px;
-	-webkit-border-radius: 14px;
-	-moz-border-radius: 14px;
-	border-radius: 14px;
-	box-shadow: rgba(0,0,0,1) 0 1px 0;
-	-moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
-	box-shadow: rgba(0,0,0,1) 0 1px 0;
-	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	background: rgba(0,0,0,0.5);
+	padding: 15px;
 	color: white;
 	font-size: 17px;
+	cursor:pointer;
 }
