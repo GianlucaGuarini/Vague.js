@@ -8,7 +8,7 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 
 http://codepen.io/GianlucaGuarini/pen/Hzrhf
 
-http://gianlucaguarini.github.io/vague.js/
+http://gianlucaguarini.github.io/Vague.js/
 
 # Dependency
 
