@@ -10,6 +10,10 @@ http://codepen.io/GianlucaGuarini/pen/Hzrhf
 
 http://gianlucaguarini.github.io/Vague.js/
 
+# SHOWCASE
+
+[Atanas Mahony's website](http://www.amahony.com/index.php?/albums/icons/) (click on any image)
+
 # Dependency
 
 [jQuery](http://jquery.com/)
