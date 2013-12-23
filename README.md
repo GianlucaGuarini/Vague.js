@@ -16,7 +16,8 @@ http://gianlucaguarini.github.io/vague.js/
 
 <pre>
 	var vague = $(yourelement).Vague({
-		intensity:3 //blur intensity
+		intensity:3 //blur intensity,
+    forceSVGUrl: false // if you have problems showing the svg fallback try to enable this option
 	});
 	vague.blur();
 </pre>

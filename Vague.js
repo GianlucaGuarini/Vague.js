@@ -42,7 +42,8 @@
   var Vague = function(elm, customOptions) {
     // Default oprions
     var defaultOptions = {
-      intensity: 5
+      intensity: 5,
+      forceSVGUrl: false
     },
       options = $.extend(defaultOptions, customOptions);
 
@@ -141,12 +142,13 @@
     this.blur = function() {
       var filterValue,
         loc = window.location,
+        svgUrl = forceSVGUrl ? loc.protocol + "//" + loc.host + loc.pathname : '',
         filterId = this.$elm.data("vague-filter-id"),
         cssProp = {};
       if (cssfilters) {
         filterValue = "blur(" + options.intensity + "px)";
       } else if (svgfilters) {
-        filterValue = "url(" + loc.protocol + "//" + loc.host + loc.pathname + "#blur-effect-id-" + filterId + ")";
+        filterValue = "url(" + svgUrl + "#blur-effect-id-" + filterId + ")";
       } else {
         filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
       }
