@@ -6,13 +6,7 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 
 # DEMO
 
-http://codepen.io/GianlucaGuarini/pen/Hzrhf
-
-http://gianlucaguarini.github.io/Vague.js/
-
-# SHOWCASE
-
-[Atanas Mahony's website](http://www.amahony.com/index.php?/albums/icons/) (click on any image)
+http://gianlucaguarini.github.io/vague.js/
 
 # Dependency
 
@@ -20,11 +14,12 @@ http://gianlucaguarini.github.io/Vague.js/
 
 # USAGE
 
-<pre>
-	var vague = $(yourelement).Vague({
-		intensity:3 //blur intensity
-	});
-	vague.blur();
+<pre class="javascript">
+var vague = $(yourelement).Vague({
+  intensity:3 //blur intensity,
+  forceSVGUrl: false // if you have problems showing the svg fallback try to enable this option
+});
+vague.blur();
 </pre>
 
 #API (public methods)
