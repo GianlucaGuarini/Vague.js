@@ -142,7 +142,7 @@
     this.blur = function() {
       var filterValue,
         loc = window.location,
-        svgUrl = forceSVGUrl ? loc.protocol + "//" + loc.host + loc.pathname : '',
+        svgUrl = options.forceSVGUrl ? loc.protocol + "//" + loc.host + loc.pathname : '',
         filterId = this.$elm.data("vague-filter-id"),
         cssProp = {};
       if (cssfilters) {
