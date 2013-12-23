@@ -17,7 +17,7 @@ http://gianlucaguarini.github.io/vague.js/
 <pre class="javascript">
 var vague = $(yourelement).Vague({
   intensity:3 //blur intensity,
-  forceSVGUrl: false // if you have problems showing the svg fallback try to enable this option
+  forceSVGUrl: false // force the absolute path to the svg filter
 });
 vague.blur();
 </pre>
