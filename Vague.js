@@ -1,6 +1,6 @@
 /**
  *
- * Version: 0.0.3
+ * Version: 0.0.4
  * Author: Gianluca Guarini
  * Contact: gianluca.guarini@gmail.com
  * Website: http://www.gianlucaguarini.com/
@@ -69,56 +69,55 @@
      *
      */
 
-    var browserPrefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-
-    var cssPrefixString = {};
-    var cssPrefix = function(property) {
-      if (cssPrefixString[property] || cssPrefixString[property] === '') return cssPrefixString[property] + property;
-      var e = document.createElement('div');
-      var prefixes = ['', 'Moz', 'Webkit', 'O', 'ms', 'Khtml']; // Various supports...
-      for (var i in prefixes) {
-        if (typeof e.style[prefixes[i] + property] !== 'undefined') {
-          cssPrefixString[property] = prefixes[i];
-          return prefixes[i] + property;
+    var browserPrefixes = ' -webkit- -moz- -o- -ms- '.split(' '),
+      cssPrefixString = {},
+      cssPrefix = function(property) {
+        if (cssPrefixString[property] || cssPrefixString[property] === '') return cssPrefixString[property] + property;
+        var e = document.createElement('div');
+        var prefixes = ['', 'Moz', 'Webkit', 'O', 'ms', 'Khtml']; // Various supports...
+        for (var i in prefixes) {
+          if (typeof e.style[prefixes[i] + property] !== 'undefined') {
+            cssPrefixString[property] = prefixes[i];
+            return prefixes[i] + property;
+          }
         }
-      }
-      return property.toLowerCase();
-    };
+        return property.toLowerCase();
+      },
 
-    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css-filters.js
-    var cssfilters = function() {
-      var el = document.createElement('div');
-      el.style.cssText = browserPrefixes.join('filter' + ':blur(2px); ');
-      return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
-    }();
+      // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css-filters.js
+      cssfilters = function() {
+        var el = document.createElement('div');
+        el.style.cssText = browserPrefixes.join('filter' + ':blur(2px); ');
+        return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
+      }(),
 
-    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg-filters.js
-    var svgfilters = function() {
-      var result = false;
-      try {
-        result = typeof SVGFEColorMatrixElement !== undefined &&
-          SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
-      } catch (e) {}
-      return result;
-    }();
+      // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg-filters.js
+      svgfilters = function() {
+        var result = false;
+        try {
+          result = typeof SVGFEColorMatrixElement !== undefined &&
+            SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
+        } catch (e) {}
+        return result;
+      }(),
 
-    /*
-     *
-     * PRIVATE METHODS
-     *
-     */
+      /*
+       *
+       * PRIVATE METHODS
+       *
+       */
 
-    var appendSVGFilter = function() {
+      appendSVGFilter = function() {
 
-      var filterMarkup = "<svg id='vague-svg-blur' style='position:absolute;' width='0' height='0' >" +
-        "<filter id='blur-effect-id-" + cache.filterId + "'>" +
-        "<feGaussianBlur stdDeviation='" + options.intensity + "' />" +
-        "</filter>" +
-        "</svg>";
+        var filterMarkup = "<svg id='vague-svg-blur' style='position:absolute;' width='0' height='0' >" +
+          "<filter id='blur-effect-id-" + cache.filterId + "'>" +
+          "<feGaussianBlur stdDeviation='" + options.intensity + "' />" +
+          "</filter>" +
+          "</svg>";
 
-      $("body").append(filterMarkup);
+        $("body").append(filterMarkup);
 
-    };
+      };
 
     /*
      *
@@ -141,12 +140,13 @@
 
     this.blur = function() {
       var filterValue,
+        loc = window.location,
         filterId = this.$elm.data("vague-filter-id"),
         cssProp = {};
       if (cssfilters) {
         filterValue = "blur(" + options.intensity + "px)";
       } else if (svgfilters) {
-        filterValue = "url(#blur-effect-id-" + filterId + ")";
+        filterValue = "url(" + loc.protocol + "//" + loc.host + loc.pathname + "#blur-effect-id-" + filterId + ")";
       } else {
         filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
       }
