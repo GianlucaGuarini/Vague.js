@@ -4,15 +4,16 @@ Vague.js is an experimental script that allows you to blur any kind of html elem
 - Safari 6.0 +
 - IE 7 +
 
-# DEMO
+### DEMOS
 
-http://gianlucaguarini.github.io/Vague.js/
+- [simple](http://gianlucaguarini.github.io/Vague.js/)
+- [hardcore](http://codepen.io/GianlucaGuarini/pen/Hzrhf)
 
-# Dependency
+### Dependency
 
 [jQuery](http://jquery.com/)
 
-# USAGE
+### USAGE
 
 <pre class="javascript">
 var vague = $(yourelement).Vague({
@@ -22,14 +23,14 @@ var vague = $(yourelement).Vague({
 vague.blur();
 </pre>
 
-#API (public methods)
+### API (public methods)
 
 - <code>blur</code> : blur the element selected.
 - <code>unblur</code> : unblur the element selected.
 - <code>destroy</code> : fires the unblur event and removes the svg filter from the DOM (whether it is needed)
 
-#KNOWN ISSUES
+### KNOWN ISSUES
 
 - currently the svg filters are not complitely supported by all the modern browsers http://caniuse.com/svg-html
 - currently on Opera 12 it doesn't work at all because it doesn't support SVG filters over HTML contents
-- on IE10 it doesn't work because IE still sucks
+- on IE10/11 it doesn't work because IE still sucks
