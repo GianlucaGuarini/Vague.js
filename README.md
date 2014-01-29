@@ -11,7 +11,7 @@ _Vague.js_: A jQuery plugin for blurring HTML elements via SVG filters.
 
 ### Demonstration
 
-View the demo [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js/).
+Check the demos [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js/) and on [Codepen](http://codepen.io/GianlucaGuarini/pen/Hzrhf).
 
 ### Requisites
 [jQuery](http://jquery.com/) JavaScript Library
