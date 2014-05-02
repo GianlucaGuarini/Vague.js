@@ -6,7 +6,7 @@
  * Website: http://www.gianlucaguarini.com/
  * Twitter: @gianlucaguarini
  *
- * Copyright (c) 2013 Gianluca Guarini
+ * Copyright (c) Gianluca Guarini
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -32,7 +32,7 @@
 
 
 (function(window, document, $) {
-  "use strict";
+  'use strict';
 
   // Plugin private cache
   // static vars
@@ -42,7 +42,7 @@
     $body = $('body');
 
   var Vague = function(elm, customOptions) {
-    // Default oprions
+    // Default options
     var defaultOptions = {
       intensity: 5,
       forceSVGUrl: false,
@@ -112,12 +112,12 @@
 
       /**
        * Create any svg element
-       * @param  { String } tagname: svg tag name
+       * @param  { String } tagName: svg tag name
        * @return { SVG Node }
        */
 
-      _createSvgElement = function(tagname) {
-        return document.createElementNS('http://www.w3.org/2000/svg', tagname);
+      _createSvgElement = function(tagName) {
+        return document.createElementNS('http://www.w3.org/2000/svg', tagName);
       },
 
       /**
@@ -141,12 +141,12 @@
         svg.setAttribute('style', 'position:absolute');
         svg.setAttribute('width', '0');
         svg.setAttribute('height', '0');
-
+        // set the id that will be used as link between the DOM element to blur and the svg just created
         filter.setAttribute('id', 'blur-effect-id-' + cache.filterId);
 
         filter.appendChild(_svgGaussianFilter);
         svg.appendChild(filter);
-
+        // append the svg into the body
         $body.append(svg);
 
       };
@@ -167,6 +167,11 @@
      *
      */
 
+    /**
+     *
+     * Initialize the plugin creating a new svg if necessary
+     *
+     */
 
     this.init = function() {
       // checking the css filter feature
@@ -174,32 +179,49 @@
         _appendSVGFilter();
       }
 
-      this.$elm.data("vague-filter-id", cache.filterId);
+      this.$elm.data('vague-filter-id', cache.filterId);
 
       cache.filterId++;
 
+      return this;
+
     };
+
+    /**
+     *
+     * Blur the DOM element selected
+     *
+     */
 
     this.blur = function() {
       var filterValue,
         loc = window.location,
-        svgUrl = options.forceSVGUrl ? loc.protocol + "//" + loc.host + loc.pathname : '',
-        filterId = this.$elm.data("vague-filter-id"),
+        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname : '',
+        filterId = this.$elm.data('vague-filter-id'),
         cssProp = {};
       if (_support.cssfilters) {
-        filterValue = "blur(" + options.intensity + "px)";
+        filterValue = 'blur(' + options.intensity + 'px)';
       } else if (_support.svgfilters) {
         _svgGaussianFilter.setAttribute('stdDeviation', options.intensity);
-        filterValue = "url(" + svgUrl + "#blur-effect-id-" + filterId + ")";
+        filterValue = 'url(' + svgUrl + '#blur-effect-id-' + filterId + ')';
       } else {
-        filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
+        filterValue = 'progid:DXImageTransform.Microsoft.Blur(pixelradius=' + options.intensity + ')';
       }
       cssProp[_cssFilterProp] = filterValue;
 
       this.$elm.css(cssProp);
 
       _blurred = true;
+
+      return this;
     };
+
+
+    /**
+     * Animate the blur intensity
+     * @param  { Int } newIntensity: new blur intensity value
+     * @param  { Object } customAnimationOptions: jQuery animate options
+     */
 
     this.animate = function(newIntensity, customAnimationOptions) {
       if (typeof newIntensity !== 'number')
@@ -225,13 +247,25 @@
       return dfr.promise();
     };
 
-
+    /**
+     *
+     * Unblur the DOM element
+     *
+     */
     this.unblur = function() {
       var cssProp = {};
-      cssProp[_cssFilterProp] = "none";
+      cssProp[_cssFilterProp] = 'none';
       this.$elm.css(cssProp);
       _blurred = false;
+
+      return this;
     };
+
+    /**
+     *
+     * Trgger alternatively the @blur and @unblur methods
+     *
+     */
 
     this.toggleblur = function() {
       if (_blurred) {
@@ -239,13 +273,16 @@
       } else {
         this.blur();
       }
+      return this;
     };
 
     this.destroy = function() {
       if (_support.svgfilters) {
-        $("filter#blur-effect-id-" + this.$elm.data("vague-filter-id")).parent().remove();
+        $('filter#blur-effect-id-' + this.$elm.data('vague-filter-id')).parent().remove();
       }
       this.unblur();
+
+      return this;
     };
     return this.init();
   };
