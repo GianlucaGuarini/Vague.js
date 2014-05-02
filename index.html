@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <head>
 	<title>Vague.js</title>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<figure class="container"></figure>
 	<article>
 		<a target="_blank" href="https://github.com/GianlucaGuarini/vague.js">Vague.js</a>
-		<span href="#" class="btn">Toggle Blur</span>
+		<span href="#" class="btn">Toggle</span>
+		<span href="#" class="btn animate">Animate intensity: <input type="text" value="30" /></span>
 	</article>
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script src="Vague.js"></script>
 	<script>
 		var vague = $(".container").Vague({intensity:30});
 		vague.blur();
-		$(".btn").on("click",$.proxy(vague.toggleblur,vague));
+		$('.btn:not(.animate)').on('click',$.proxy(vague.toggleblur,vague));
+		$('.btn input').on('keyup blur',function(e){
+			vague.animate(+$(e.currentTarget).val(),{
+				duration:800
+			}).done(function(){
+				if (window.console)
+					console.log('Animation Complete!');
+			});
+		});
 	</script>
 </body>
 </html>

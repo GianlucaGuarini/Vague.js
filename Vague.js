@@ -1,6 +1,6 @@
 /**
  *
- * Version: 0.0.4
+ * Version: 0.0.5
  * Author: Gianluca Guarini
  * Contact: gianluca.guarini@gmail.com
  * Website: http://www.gianlucaguarini.com/
@@ -30,77 +30,79 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  **/
 
-;(function(window, document, $) {
+
+(function(window, document, $) {
   "use strict";
 
   // Plugin private cache
-
+  // static vars
   var cache = {
     filterId: 0
-  };
+  },
+    $body = $('body');
 
   var Vague = function(elm, customOptions) {
     // Default oprions
     var defaultOptions = {
       intensity: 5,
-      forceSVGUrl: false
+      forceSVGUrl: false,
+      animationOptions: {
+        duration: 1000
+      }
     },
-      options = $.extend(defaultOptions, customOptions);
+      // extend the default options with the ones passed to the plugin
+      options = $.extend(defaultOptions, customOptions),
 
-    /*
-     *
-     * PUBLIC VARS
-     *
-     */
+      /*
+       *
+       * Helpers
+       *
+       */
 
-    this.$elm = elm instanceof $ ? elm : $(elm);
-
-    /*
-     *
-     * PRIVATE VARS
-     *
-     */
-
-
-    var blurred = false;
-
-    /*
-     *
-     * features detection
-     *
-     */
-
-    var browserPrefixes = ' -webkit- -moz- -o- -ms- '.split(' '),
-      cssPrefixString = {},
-      cssPrefix = function(property) {
-        if (cssPrefixString[property] || cssPrefixString[property] === '') return cssPrefixString[property] + property;
+      _browserPrefixes = ' -webkit- -moz- -o- -ms- '.split(' '),
+      _cssPrefixString = {},
+      _cssPrefix = function(property) {
+        if (_cssPrefixString[property] || _cssPrefixString[property] === '') return _cssPrefixString[property] + property;
         var e = document.createElement('div');
         var prefixes = ['', 'Moz', 'Webkit', 'O', 'ms', 'Khtml']; // Various supports...
         for (var i in prefixes) {
           if (typeof e.style[prefixes[i] + property] !== 'undefined') {
-            cssPrefixString[property] = prefixes[i];
+            _cssPrefixString[property] = prefixes[i];
             return prefixes[i] + property;
           }
         }
         return property.toLowerCase();
       },
-
       // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/css-filters.js
-      cssfilters = function() {
-        var el = document.createElement('div');
-        el.style.cssText = browserPrefixes.join('filter' + ':blur(2px); ');
-        return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
-      }(),
+      _support = {
+        cssfilters: function() {
+          var el = document.createElement('div');
+          el.style.cssText = _browserPrefixes.join('filter' + ':blur(2px); ');
+          return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
+        }(),
 
-      // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg-filters.js
-      svgfilters = function() {
-        var result = false;
-        try {
-          result = typeof SVGFEColorMatrixElement !== undefined &&
-            SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
-        } catch (e) {}
-        return result;
-      }(),
+        // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg-filters.js
+        svgfilters: function() {
+          var result = false;
+          try {
+            result = typeof SVGFEColorMatrixElement !== undefined &&
+              SVGFEColorMatrixElement.SVG_FECOLORMATRIX_TYPE_SATURATE == 2;
+          } catch (e) {}
+          return result;
+        }()
+      },
+
+      /*
+       *
+       * PRIVATE VARS
+       *
+       */
+
+      _blurred = false,
+      _isAnimating = false,
+      // cache the right prefixed css filter property
+      _cssFilterProp = _cssPrefix('Filter'),
+      _svgGaussianFilter,
 
       /*
        *
@@ -108,17 +110,56 @@
        *
        */
 
-      appendSVGFilter = function() {
+      /**
+       * Create any svg element
+       * @param  { String } tagname: svg tag name
+       * @return { SVG Node }
+       */
 
-        var filterMarkup = "<svg id='vague-svg-blur' style='position:absolute;' width='0' height='0' >" +
-          "<filter id='blur-effect-id-" + cache.filterId + "'>" +
-          "<feGaussianBlur stdDeviation='" + options.intensity + "' />" +
-          "</filter>" +
-          "</svg>";
+      _createSvgElement = function(tagname) {
+        return document.createElementNS('http://www.w3.org/2000/svg', tagname);
+      },
 
-        $("body").append(filterMarkup);
+      /**
+       *
+       * Inject the svg tag into the DOM
+       * we will use it only if the css filters are not supported
+       *
+       */
+
+      _appendSVGFilter = function() {
+        // create the svg and the filter tags
+        var svg = _createSvgElement('svg'),
+          filter = _createSvgElement('filter');
+
+        // cache the feGaussianBlur tag and make it available
+        // outside of this function to easily update the blur intensity
+        _svgGaussianFilter = _createSvgElement('feGaussianBlur');
+
+        // hide the svg tag
+        // we don't want to see it into the DOM!
+        svg.setAttribute('style', 'position:absolute');
+        svg.setAttribute('width', '0');
+        svg.setAttribute('height', '0');
+
+        filter.setAttribute('id', 'blur-effect-id-' + cache.filterId);
+
+        filter.appendChild(_svgGaussianFilter);
+        svg.appendChild(filter);
+
+        $body.append(svg);
 
       };
+
+    /*
+     *
+     * PUBLIC VARS
+     *
+     */
+
+    // cache the DOM element to blur
+    this.$elm = elm instanceof $ ? elm : $(elm);
+
 
     /*
      *
@@ -126,11 +167,11 @@
      *
      */
 
+
     this.init = function() {
       // checking the css filter feature
-
-      if (svgfilters) {
-        appendSVGFilter();
+      if (_support.svgfilters) {
+        _appendSVGFilter();
       }
 
       this.$elm.data("vague-filter-id", cache.filterId);
@@ -145,29 +186,55 @@
         svgUrl = options.forceSVGUrl ? loc.protocol + "//" + loc.host + loc.pathname : '',
         filterId = this.$elm.data("vague-filter-id"),
         cssProp = {};
-      if (cssfilters) {
+      if (_support.cssfilters) {
         filterValue = "blur(" + options.intensity + "px)";
-      } else if (svgfilters) {
+      } else if (_support.svgfilters) {
+        _svgGaussianFilter.setAttribute('stdDeviation', options.intensity);
         filterValue = "url(" + svgUrl + "#blur-effect-id-" + filterId + ")";
       } else {
         filterValue = "progid:DXImageTransform.Microsoft.Blur(pixelradius=" + options.intensity + ")";
       }
-      cssProp[cssPrefix('Filter')] = filterValue;
+      cssProp[_cssFilterProp] = filterValue;
 
       this.$elm.css(cssProp);
 
-      blurred = true;
+      _blurred = true;
     };
+
+    this.animate = function(newIntensity, customAnimationOptions) {
+      if (typeof newIntensity !== 'number')
+        throw (typeof newIntensity + ' is not a valid number to animate the blur');
+      if (newIntensity < 0)
+        throw ('I can animate only positive numbers');
+
+      var dfr = new $.Deferred();
+
+      if (!_isAnimating) {
+        $.Animation(options, {
+          intensity: newIntensity
+        }, $.extend(options.animationOptions, customAnimationOptions))
+          .progress($.proxy(this.blur, this))
+          .done(function() {
+            _isAnimating = false;
+            dfr.resolve();
+          });
+      } else {
+        dfr.reject();
+      }
+      _isAnimating = true;
+      return dfr.promise();
+    };
+
 
     this.unblur = function() {
       var cssProp = {};
-      cssProp[cssPrefix('Filter')] = "none";
+      cssProp[_cssFilterProp] = "none";
       this.$elm.css(cssProp);
-      blurred = false;
+      _blurred = false;
     };
 
     this.toggleblur = function() {
-      if (blurred) {
+      if (_blurred) {
         this.unblur();
       } else {
         this.blur();
@@ -175,7 +242,7 @@
     };
 
     this.destroy = function() {
-      if (svgfilters) {
+      if (_support.svgfilters) {
         $("filter#blur-effect-id-" + this.$elm.data("vague-filter-id")).parent().remove();
       }
       this.unblur();
