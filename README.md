@@ -18,6 +18,7 @@ Check the demos [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js
 ### Usage
 
 ````javascript
+
 var vague = $('#yourelement').Vague({
 	intensity:      3,      // Blur Intensity
 	forceSVGUrl:    false,   // Force absolute path to the SVG filter,
@@ -29,6 +30,7 @@ var vague = $('#yourelement').Vague({
 });
 
 vague.blur();
+
 ````
 
 ### API (Public methods)
@@ -41,9 +43,10 @@ vague.blur();
 
 vague.animate(
   20,
-  // here you can use the jQuery animation options
+  // here you can use the normal jQuery animation options
   {
     duration:500
+    easing: 'linear'
   }
 ).done(function(){
 	console.log('Animation finished!');
@@ -54,7 +57,8 @@ vague.animate(
 - ``destroy`` : remove the blur effect and the SVG filter from the DOM.
 
 ### [Issues](http://github.com/GianlucaGuarini/Vague.js/issues)
-- The ``animate`` method is part of the plugin but it's not recommended, it can be really slow due to the many GPU resources needed to render the blur effect
+
+- The ``animate`` method is part of the plugin but it's not recommended, it can be really slow due to the many GPU resources needed to render the blur effect on the pages
 - It is not supported in the Opera browser as SVG filters over elements are not supported
 - Not supported in IE10/IE11 ( because IE still sucks )
 
