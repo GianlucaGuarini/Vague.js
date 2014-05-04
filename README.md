@@ -2,7 +2,6 @@
 
 _Vague.js_: A jQuery plugin for blurring HTML elements via SVG filters.
 
-
 ### Browser Support
 - [Mozilla Firefox](http://www.mozilla.org/firefox/) (v10 and above)
 - [Google Chrome](http://www.google.com/chrome/) (v18 and above)
@@ -36,7 +35,7 @@ vague.blur();
 
 - ``blur`` : Apply the SVG filter to the element selected.
 - ``unblur`` : Hide the SVG filter from the element selected.
-- ``animate( newBlurIntensity, animationOptions )`` : Animate the blur intensity to any new value
+- ``animate( newBlurIntensity, animationOptions )`` : Animate the blur intensity to any new value.
 
 ```javascript
 
@@ -52,7 +51,7 @@ vague.animate(
 
 ```
 
-- ``destroy`` : Hide the SVG filter remove the SVG filter from the DOM.
+- ``destroy`` : remove the blur effect and the SVG filter from the DOM.
 
 ### [Issues](http://github.com/GianlucaGuarini/Vague.js/issues)
 - The ``animate`` method is part of the plugin but it's not recommended, it can be really slow due to the many GPU resources needed to render the blur effect
