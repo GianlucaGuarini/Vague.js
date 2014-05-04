@@ -1,35 +1,70 @@
-Vague.js is an experimental script that allows you to blur any kind of html element thanks to the SVG filters. This script is crossbrowser and it was tested on:
-- Firefox 10 +
-- Chrome 18 +
-- Safari 6.0 +
-- IE 7 +
+![Vague.js](http://i.imgur.com/E7sszkE.png)
 
-# DEMO
+_Vague.js_: A jQuery plugin for blurring HTML elements via SVG filters.
 
-http://gianlucaguarini.github.io/vague.js/
+### Browser Support
+- [Mozilla Firefox](http://www.mozilla.org/firefox/) (v10 and above)
+- [Google Chrome](http://www.google.com/chrome/) (v18 and above)
+- [Safari](http://www.apple.com/safari/) (v6.0 and above)
+- [Microsoft Internet Explorer](http://microsoft.com/internetexplorer) (v7-9; v10+ not supported)
 
-# Dependency
+### Demonstration
 
-[jQuery](http://jquery.com/)
+Check the demos [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js/) and on [Codepen](http://codepen.io/GianlucaGuarini/pen/Hzrhf).
 
-# USAGE
+### Requisites
+[jQuery](http://jquery.com/) JavaScript Library
 
-<pre>
-	var vague = $(yourelement).Vague({
-		intensity:3 //blur intensity,
-    forceSVGUrl: false // if you have problems showing the svg fallback try to enable this option
-	});
-	vague.blur();
-</pre>
+### Usage
 
-#API (public methods)
+````javascript
 
-- <code>blur</code> : blur the element selected.
-- <code>unblur</code> : unblur the element selected.
-- <code>destroy</code> : fires the unblur event and removes the svg filter from the DOM (whether it is needed)
+var vague = $('#yourelement').Vague({
+	intensity:      3,      // Blur Intensity
+	forceSVGUrl:    false,   // Force absolute path to the SVG filter,
+	// default animation options
+    animationOptions: {
+      duration: 1000,
+      easing: 'linear' // here you can use also custom jQuery easing functions
+    }
+});
 
-#KNOWN ISSUES
+vague.blur();
 
-- currently the svg filters are not complitely supported by all the modern browsers http://caniuse.com/svg-html
-- currently on Opera 12 it doesn't work at all because it doesn't support SVG filters over HTML contents
-- on IE10 it doesn't work because IE still sucks
+````
+
+### API (Public methods)
+
+- ``blur`` : Apply the SVG filter to the element selected.
+- ``unblur`` : Hide the SVG filter from the element selected.
+- ``animate( newBlurIntensity, animationOptions )`` : Animate the blur intensity to any new value.
+
+```javascript
+
+vague.animate(
+  20,
+  // here you can use the normal jQuery animation options
+  {
+    duration:500
+    easing: 'linear'
+  }
+).done(function(){
+	console.log('Animation finished!');
+});
+
+```
+
+- ``destroy`` : remove the blur effect and the SVG filter from the DOM.
+
+### [Issues](http://github.com/GianlucaGuarini/Vague.js/issues)
+
+- The ``animate`` method is part of the plugin but it's not recommended, it can be really slow due to the many GPU resources needed to render the blur effect on the pages
+- It is not supported in the Opera browser as SVG filters over elements are not supported
+- Not supported in IE10/IE11 ( because IE still sucks )
+
+### Changelog
+
+#### v0.0.5
+
+ - plugin code refactoring and micro optimizations
+ - added: ``animate`` method
