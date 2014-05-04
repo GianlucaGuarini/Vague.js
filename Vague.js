@@ -47,7 +47,8 @@
       intensity: 5,
       forceSVGUrl: false,
       animationOptions: {
-        duration: 1000
+        duration: 1000,
+        easing: 'linear'
       }
     },
       // extend the default options with the ones passed to the plugin
@@ -99,10 +100,12 @@
        */
 
       _blurred = false,
-      _isAnimating = false,
       // cache the right prefixed css filter property
       _cssFilterProp = _cssPrefix('Filter'),
       _svgGaussianFilter,
+      _filterId,
+      // to cache the jquery animation instance
+      _animation,
 
       /*
        *
@@ -178,9 +181,9 @@
       if (_support.svgfilters) {
         _appendSVGFilter();
       }
-
-      this.$elm.data('vague-filter-id', cache.filterId);
-
+      // cache the filter id
+      _filterId = cache.filterId;
+      // increment the filter id static var
       cache.filterId++;
 
       return this;
@@ -194,23 +197,28 @@
      */
 
     this.blur = function() {
-      var filterValue,
+
+      var cssFilterValue,
+        // variables needed to force the svg filter URL
         loc = window.location,
-        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname : '',
-        filterId = this.$elm.data('vague-filter-id'),
-        cssProp = {};
+        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname : '';
+
+      // use the css filters if supported
       if (_support.cssfilters) {
-        filterValue = 'blur(' + options.intensity + 'px)';
+        cssFilterValue = 'blur(' + options.intensity + 'px)';
+        // .. or use the svg filters
       } else if (_support.svgfilters) {
+        // update the svg stdDeviation tag to set up the blur intensity
         _svgGaussianFilter.setAttribute('stdDeviation', options.intensity);
-        filterValue = 'url(' + svgUrl + '#blur-effect-id-' + filterId + ')';
+        cssFilterValue = 'url(' + svgUrl + '#blur-effect-id-' + _filterId + ')';
       } else {
-        filterValue = 'progid:DXImageTransform.Microsoft.Blur(pixelradius=' + options.intensity + ')';
+        // .. use the IE css filters
+        cssFilterValue = 'progid:DXImageTransform.Microsoft.Blur(pixelradius=' + options.intensity + ')';
       }
-      cssProp[_cssFilterProp] = filterValue;
 
-      this.$elm.css(cssProp);
-
+      // update the DOM element css
+      this.$elm[0].style[_cssFilterProp] = cssFilterValue;
+      // set the _blurred internal var to true to cache the element current status
       _blurred = true;
 
       return this;
@@ -220,30 +228,32 @@
     /**
      * Animate the blur intensity
      * @param  { Int } newIntensity: new blur intensity value
-     * @param  { Object } customAnimationOptions: jQuery animate options
+     * @param  { Object } customAnimationOptions: default jQuery animate options
      */
 
     this.animate = function(newIntensity, customAnimationOptions) {
-      if (typeof newIntensity !== 'number')
+      // control the new blur intensity checking if it's a valid value
+      if (typeof newIntensity !== 'number') {
         throw (typeof newIntensity + ' is not a valid number to animate the blur');
-      if (newIntensity < 0)
+      } else if (newIntensity < 0) {
         throw ('I can animate only positive numbers');
-
+      }
+      // create a new jQuery deferred instance
       var dfr = new $.Deferred();
 
-      if (!_isAnimating) {
-        $.Animation(options, {
-          intensity: newIntensity
-        }, $.extend(options.animationOptions, customAnimationOptions))
-          .progress($.proxy(this.blur, this))
-          .done(function() {
-            _isAnimating = false;
-            dfr.resolve();
-          });
-      } else {
-        dfr.reject();
+      // kill the previous animation
+      if (_animation) {
+        _animation.stop(true, true);
       }
-      _isAnimating = true;
+
+      // trigger the animation using the jQuery Animation class
+      _animation = new $.Animation(options, {
+        intensity: newIntensity
+      }, $.extend(options.animationOptions, customAnimationOptions))
+        .progress($.proxy(this.blur, this))
+        .done(dfr.resolve);
+
+      // return the animation deferred promise
       return dfr.promise();
     };
 
@@ -253,17 +263,15 @@
      *
      */
     this.unblur = function() {
-      var cssProp = {};
-      cssProp[_cssFilterProp] = 'none';
-      this.$elm.css(cssProp);
+      // set the DOM filter property to none
+      this.$elm.css(_cssFilterProp, 'none');
       _blurred = false;
-
       return this;
     };
 
     /**
      *
-     * Trgger alternatively the @blur and @unblur methods
+     * Trigger alternatively the @blur and @unblur methods
      *
      */
 
@@ -275,22 +283,31 @@
       }
       return this;
     };
-
+    /**
+     * Destroy the Vague.js instance removing also the svg filter injected into the DOM
+     */
     this.destroy = function() {
+      // do we need to remove the svg filter?
       if (_support.svgfilters) {
-        $('filter#blur-effect-id-' + this.$elm.data('vague-filter-id')).parent().remove();
+        $('filter#blur-effect-id-' + _filterId).parent().remove();
       }
+
       this.unblur();
+
+      // clear all the property stored into this Vague.js instance
+      for (var prop in this) {
+        delete this[prop];
+      }
 
       return this;
     };
+    // init the plugin
     return this.init();
   };
 
+  // export the plugin as a jQuery function
   $.fn.Vague = function(options) {
     return new Vague(this, options);
   };
-
-  window.Vague = Vague;
 
 }(window, document, jQuery));
