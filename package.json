@@ -18,13 +18,5 @@
     "Vague",
     "blur",
     "filter"
-  ],
-  "autoupdate": {
-    "source": "git",
-    "target": "git://github.com/GianlucaGuarini/Vague.js.git",
-    "basePath": "",
-    "files": [
-      "Vague.js"
-    ]
-  }
+  ]
 }
