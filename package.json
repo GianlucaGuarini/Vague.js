@@ -1,5 +1,5 @@
 {
-  "name": "Vague.js",
+  "name": "vaguejs",
   "main": "Vague.js",
   "version": "0.0.6",
   "description": "Vague.js is an experimental script that allows you to blur any kind of html element thanks to the SVG filters",
