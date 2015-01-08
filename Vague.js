@@ -201,7 +201,7 @@
       var cssFilterValue,
         // variables needed to force the svg filter URL
         loc = window.location,
-        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname : '';
+        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname + loc.search : '';
 
       // use the css filters if supported
       if (_support.cssfilters) {
