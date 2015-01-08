@@ -64,6 +64,10 @@ vague.animate(
 
 ### Changelog
 
+#### v0.0.6
+
+ - merged: patch [16](https://github.com/GianlucaGuarini/Vague.js/pull/16) - [17](https://github.com/GianlucaGuarini/Vague.js/pull/17)
+
 #### v0.0.5
 
  - plugin code refactoring and micro optimizations
