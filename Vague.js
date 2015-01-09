@@ -32,6 +32,7 @@
 
 
 (function(window, document, $) {
+  
   'use strict';
 
   // Plugin private cache
@@ -41,7 +42,7 @@
   },
     $body = $('body');
 
-  var Vague = function(elm, customOptions) {
+  var vague = function(elm, customOptions) {
     // Default options
     var defaultOptions = {
       intensity: 5,
@@ -284,7 +285,7 @@
       return this;
     };
     /**
-     * Destroy the Vague.js instance removing also the svg filter injected into the DOM
+     * Destroy the vague.js instance removing also the svg filter injected into the DOM
      */
     this.destroy = function() {
       // do we need to remove the svg filter?
@@ -294,7 +295,7 @@
 
       this.unblur();
 
-      // clear all the property stored into this Vague.js instance
+      // clear all the property stored into this vague.js instance
       for (var prop in this) {
         delete this[prop];
       }
@@ -306,7 +307,11 @@
   };
 
   // export the plugin as a jQuery function
+  // Uppercase one kept for retrocompatibility
   $.fn.Vague = function(options) {
+    return new Vague(this, options);
+  };
+  $.fn.vague = function(options) {
     return new Vague(this, options);
   };
 

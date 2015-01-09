@@ -15,14 +15,21 @@ Check the demos [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js
 ### Requisites
 [jQuery](http://jquery.com/) JavaScript Library
 
+### Install
+
+With Bower: `bower install vaguejs`<br />
+With npm: `npm install vaguejs`
+
+Then you can use the `vague.js` or `vague.min.js` file.
+
 ### Usage
 
 ````javascript
 
 var vague = $('#yourelement').Vague({
-	intensity:      3,      // Blur Intensity
-	forceSVGUrl:    false,   // Force absolute path to the SVG filter,
-	// default animation options
+  intensity:      3,      // Blur Intensity
+  forceSVGUrl:    false,   // Force absolute path to the SVG filter,
+  // default animation options
     animationOptions: {
       duration: 1000,
       easing: 'linear' // here you can use also custom jQuery easing functions
@@ -49,7 +56,7 @@ vague.animate(
     easing: 'linear'
   }
 ).done(function(){
-	console.log('Animation finished!');
+  console.log('Animation finished!');
 });
 
 ```

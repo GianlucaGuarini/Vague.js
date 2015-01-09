@@ -1,7 +1,7 @@
 {
-  "name": "Vague.js",
-  "version": "0.0.5",
-  "main": "Vague.js",
+  "name": "vague.js",
+  "version": "0.0.6",
+  "main": "vague.js",
   "ignore": [
     "**/.*",
     "node_modules",
