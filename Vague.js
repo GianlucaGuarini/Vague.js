@@ -1,6 +1,6 @@
 /**
  *
- * Version: 0.0.5
+ * Version: 0.0.6
  * Author: Gianluca Guarini
  * Contact: gianluca.guarini@gmail.com
  * Website: http://www.gianlucaguarini.com/
@@ -201,7 +201,7 @@
       var cssFilterValue,
         // variables needed to force the svg filter URL
         loc = window.location,
-        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname : '';
+        svgUrl = options.forceSVGUrl ? loc.protocol + '//' + loc.host + loc.pathname + loc.search : '';
 
       // use the css filters if supported
       if (_support.cssfilters) {
