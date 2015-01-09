@@ -1,6 +1,6 @@
 {
   "name": "vaguejs",
-  "main": "Vague.js",
+  "main": "vague.js",
   "version": "0.0.6",
   "description": "Vague.js is an experimental script that allows you to blur any kind of html element thanks to the SVG filters",
   "homepage": "https://gianlucaguarini.github.io/Vague.js/",
@@ -18,5 +18,10 @@
     "Vague",
     "blur",
     "filter"
-  ]
+  ],
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1"
+  }
 }
