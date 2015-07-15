@@ -15,6 +15,11 @@ Check the demos [here on GitHub Pages](http://gianlucaguarini.github.io/Vague.js
 ### Requisites
 [jQuery](http://jquery.com/) JavaScript Library
 
+### Installation
+```bash
+bower install vague.js --save
+```
+
 ### Usage
 
 ````javascript
