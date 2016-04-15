@@ -50,7 +50,7 @@ vague.animate(
   20,
   // here you can use the normal jQuery animation options
   {
-    duration:500
+    duration:500,
     easing: 'linear'
   }
 ).done(function(){
