@@ -1,5 +1,7 @@
 ![Vague.js](http://i.imgur.com/E7sszkE.png)
 
+[![CDNJS](https://img.shields.io/cdnjs/v/Vague.js.svg)](https://cdnjs.com/libraries/Vague.js)
+
 _Vague.js_: A jQuery plugin for blurring HTML elements via SVG filters.
 
 ### Browser Support
